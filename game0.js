@@ -18,6 +18,7 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	var endScene, endCamera, endText;
 
+	var monkey;
 
 
 
@@ -62,6 +63,7 @@ The user moves a cube around the board trying to knock balls into a cone
 			createEndScene();
 			initRenderer();
 			createMainScene();
+			initMonkeyOBJ();
 	}
 
 
@@ -136,7 +138,7 @@ The user moves a cube around the board trying to knock balls into a cone
 						scene.remove(ball);  //why not disapearing??
 						// make the ball drop below the scene ..
 						// threejs doesn't let us remove it from the schene...
-						
+
 						// this.position.y = this.position.y - 100;
 						// this.__dirtyPosition = true;
 					}
@@ -294,6 +296,30 @@ The user moves a cube around the board trying to knock balls into a cone
 		return mesh;
 	}
 
+	function initMonkeyOBJ(){
+		console.log("load monkey!");
+	var loader = new THREE.OBJLoader();
+	loader.load("/monkey.obj",
+				function (obj) {
+					console.log("loading bb8 file");
+					obj.scale.x=2;
+					obj.scale.y=2;
+					obj.scale.z=2;
+					obj.position.y = 5;
+					obj.position.x = 0;
+
+					scene.add(obj);
+					obj.castShadow = true;
+
+					//
+				},
+				function(xhr){
+					console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},  //loading bar
+
+				function(err){
+					console.log("error in loading: "+err);}
+			)
+}
 
 	function createConeMesh(r,h){
 		var geometry = new THREE.ConeGeometry( r, h, 32);
