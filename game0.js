@@ -63,7 +63,6 @@ The user moves a cube around the board trying to knock balls into a cone
 			createEndScene();
 			initRenderer();
 			createMainScene();
-			//initMonkeyOBJ();
 	}
 
 
@@ -104,7 +103,7 @@ The user moves a cube around the board trying to knock balls into a cone
 			cone = createConeMesh(4,6);
 			cone.position.set(10,3,7);
 			scene.add(cone);
-
+      createNPC();
 			//playGameMusic();
 
 	}
@@ -314,27 +313,15 @@ The user moves a cube around the board trying to knock balls into a cone
 					return mesh;
 	}
 
-// 	function initMonkeyOBJ(){
-// 		console.log("load monkey!");
-// 		var loader = new THREE.OBJLoader();
-// 		loader.load("/monkey.obj",
-// 				function (obj) {
-// 					obj.scale.x=2;
-// 					obj.scale.y=2;
-// 					obj.scale.z=2;
-// 					obj.position.y = 5;
-// 					obj.position.x = 0;
-//           monkey = obj;
-// 					scene.add(obj);
-// 					obj.castShadow = true;
-// 				},
-// 				function(xhr){
-// 					console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},  //loading bar
-//
-// 				function(err){
-// 					console.log("error in loading: "+err);}
-// 			)
-// }
+	function createNPC(){
+		var geometry = new THREE.BoxGeometry( 5, 5, 6);
+		var material = new THREE.MeshLambertMaterial( { color: 0xa742f4} );
+		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+		mesh.setDamping(0.1,0.1);
+		mesh.castShadow = true;
+		scene.add(mesh);
+	}
 
 	function createConeMesh(r,h){
 		var geometry = new THREE.ConeGeometry( r, h, 32);
