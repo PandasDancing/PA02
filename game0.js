@@ -394,8 +394,8 @@ The user moves a cube around the board trying to knock balls into a cone
 			case "r": controls.up = true; break;
 			case "f": controls.down = true; break;
 			case "m": controls.speed = 30; break;
-      case " ": controls.fly = true; break;
-      case "h": controls.reset = true; break;
+      			case " ": controls.fly = true; break;
+      			case "h": controls.reset = true; break;
 
 
 			// switch cameras
@@ -408,6 +408,8 @@ The user moves a cube around the board trying to knock balls into a cone
 			case "ArrowRight": avatarCam.translateY(-1);break;
 			case "ArrowUp": avatarCam.translateZ(-1);break;
 			case "ArrowDown": avatarCam.translateZ(1);break;
+			case "q": avatarCam.rotateY(.15);break;
+			case "e": avatarCam.rotateY(-.15);break;
 
 		}
 
