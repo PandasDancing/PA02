@@ -11,7 +11,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	// in the animation code
 	var scene, renderer;  // all threejs programs need these
 	var camera, avatarCam, camera3;  // we have two cameras in the main scene
-	var avatar;
+	var avatar, monkey;
 	// here are some mesh objects ...
 
 	var cone;
@@ -63,7 +63,7 @@ The user moves a cube around the board trying to knock balls into a cone
 			createEndScene();
 			initRenderer();
 			createMainScene();
-			initMonkeyOBJ();
+			//initMonkeyOBJ();
 	}
 
 
@@ -280,46 +280,61 @@ The user moves a cube around the board trying to knock balls into a cone
 	}
 
 	function createAvatar(){
-		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
-		var geometry = new THREE.BoxGeometry( 5, 5, 6);
-		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
-		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-		mesh.setDamping(0.1,0.1);
-		mesh.castShadow = true;
 
-		avatarCam.position.set(0,4,0);
-		avatarCam.lookAt(0,4,10);
-		mesh.add(avatarCam);
 
-		return mesh;
+					var geometry = new THREE.BoxGeometry( 5, 5, 6);
+					var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+					var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+					pmaterial.visible = false;
+					var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+					mesh.setDamping(0.1,0.1);
+					mesh.castShadow = true;
+
+					avatarCam.position.set(0,4,0);
+					avatarCam.lookAt(0,4,10);
+					mesh.add(avatarCam);
+
+					console.log("load monkey!");
+					var loader = new THREE.OBJLoader();
+					loader.load("/monkey.obj",
+							function (obj) {
+								obj.scale.x=2;
+								obj.scale.y=2;
+								obj.scale.z=2;
+								obj.position.y = 0;
+								obj.position.x = 0;
+								mesh.add(obj);
+								obj.castShadow = true;
+							},
+							function(xhr){
+								console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},  //loading bar
+
+							function(err){
+								console.log("error in loading: "+err);});
+					return mesh;
 	}
 
-	function initMonkeyOBJ(){
-		console.log("load monkey!");
-	var loader = new THREE.OBJLoader();
-	loader.load("/monkey.obj",
-				function (obj) {
-					console.log("loading bb8 file");
-					obj.scale.x=2;
-					obj.scale.y=2;
-					obj.scale.z=2;
-					obj.position.y = 5;
-					obj.position.x = 0;
-
-					scene.add(obj);
-					obj.castShadow = true;
-
-					//
-				},
-				function(xhr){
-					console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},  //loading bar
-
-				function(err){
-					console.log("error in loading: "+err);}
-			)
-}
+// 	function initMonkeyOBJ(){
+// 		console.log("load monkey!");
+// 		var loader = new THREE.OBJLoader();
+// 		loader.load("/monkey.obj",
+// 				function (obj) {
+// 					obj.scale.x=2;
+// 					obj.scale.y=2;
+// 					obj.scale.z=2;
+// 					obj.position.y = 5;
+// 					obj.position.x = 0;
+//           monkey = obj;
+// 					scene.add(obj);
+// 					obj.castShadow = true;
+// 				},
+// 				function(xhr){
+// 					console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );},  //loading bar
+//
+// 				function(err){
+// 					console.log("error in loading: "+err);}
+// 			)
+// }
 
 	function createConeMesh(r,h){
 		var geometry = new THREE.ConeGeometry( r, h, 32);
