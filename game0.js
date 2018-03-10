@@ -103,7 +103,10 @@ The user moves a cube around the board trying to knock balls into a cone
 			cone = createConeMesh(4,6);
 			cone.position.set(10,3,7);
 			scene.add(cone);
-      createNPC();
+      			
+			npc = createNPC();
+			npc.position.set(10,10,10);
+			scene.add(npc);
 			//playGameMusic();
 
 	}
@@ -317,10 +320,10 @@ The user moves a cube around the board trying to knock balls into a cone
 		var geometry = new THREE.BoxGeometry( 5, 5, 6);
 		var material = new THREE.MeshLambertMaterial( { color: 0xa742f4} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-		mesh.setDamping(0.1,0.1);
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial, 0 );
+		//mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
-		scene.add(mesh);
+		return mesh;
 	}
 
 	function createConeMesh(r,h){
