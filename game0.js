@@ -522,7 +522,9 @@ The user moves a cube around the board trying to knock balls into a cone
 		}
 
 		//draw heads up display ..
-	  var info = document.getElementById("info");
-		info.innerHTML='<div style="font-size:24pt">Score: ' + gameState.score + '</div>';
+	   var info = document.getElementById("info");
+info.innerHTML='<div style="font-size:24pt">Score: '+ gameState.score
+    + " health="+gameState.health
+    + '</div>';
 
 	}
