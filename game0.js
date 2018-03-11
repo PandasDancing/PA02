@@ -18,7 +18,6 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	var endScene, endCamera, endText;
 
-	var monkey;
 
 
 
@@ -103,9 +102,9 @@ The user moves a cube around the board trying to knock balls into a cone
 			cone = createConeMesh(4,6);
 			cone.position.set(10,3,7);
 			scene.add(cone);
-      			
+
 			npc = createNPC();
-			npc.position.set(10,10,10);
+			npc.position.set(20,1,10);
 			scene.add(npc);
 			//playGameMusic();
 
@@ -303,7 +302,7 @@ The user moves a cube around the board trying to knock balls into a cone
 								obj.scale.x=2;
 								obj.scale.y=2;
 								obj.scale.z=2;
-								obj.position.y = 0;
+								obj.position.y = 3;
 								obj.position.x = 0;
 								mesh.add(obj);
 								obj.castShadow = true;
