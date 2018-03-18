@@ -1,9 +1,9 @@
 
+
 /*
-Game 0
+Game 0: Group 29
 This is a ThreeJS program which implements a simple game
 The user moves a cube around the board trying to knock balls into a cone
-
 */
 
 
@@ -19,7 +19,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	var endScene, endCamera, endText;
   var npc;
 
-
+	var startScene, startCam, startText;
 
 
 	var controls =
@@ -28,30 +28,16 @@ The user moves a cube around the board trying to knock balls into a cone
 		    camera:camera}
 
 	var gameState =
-	     {score:0, health:10, scene:'main', camera:'none' }
+	     {score:0, health:10, scene: 'start', scene:'main', camera:'none' }
+			 //scene: 'start',
 
 
 	// Here is the main game control
   init(); //
 	initControls();
+	console.log("here sssss");
 	animate();  // start the animation loop!
 
-
-
-
-	function createEndScene(){
-		endScene = initScene();
-		endText = createSkyBox('youwon.png',10);
-		//endText.rotateX(Math.PI);
-		endScene.add(endText);
-		var light1 = createPointLight();
-		light1.position.set(0,200,20);
-		endScene.add(light1);
-		endCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		endCamera.position.set(0,50,1);
-		endCamera.lookAt(0,0,0);
-
-	}
 
 	/**
 	  To initialize the scene, we initialize each of its components
@@ -61,9 +47,38 @@ The user moves a cube around the board trying to knock balls into a cone
 			scene = initScene();
 			createEndScene();
 			initRenderer();
+			createStartScene();
 			createMainScene();
+			console.log("test test ");
 	}
 
+	function createStartScene(){
+		startScene = initScene();
+		startText = createSkyBox('start.png',5);
+		startScene.add(startText);
+		var light = createPointLight();
+		light.position.set(0,200,20);
+		startScene.add(light);
+		//gameState.scene='start';
+		startCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		startCamera.position.set(0,50,1);
+		startCamera.lookAt(0,0,0);
+	}
+
+
+		function createEndScene(){
+			endScene = initScene();
+			endText = createSkyBox('youwon.png',10);
+			//endText.rotateX(Math.PI);
+			endScene.add(endText);
+			var light1 = createPointLight();
+			light1.position.set(0,200,20);
+			endScene.add(light1);
+			endCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			endCamera.position.set(0,50,1);
+			endCamera.lookAt(0,0,0);
+
+		}
 
 	function createMainScene(){
       // setup lighting
@@ -304,7 +319,7 @@ The user moves a cube around the board trying to knock balls into a cone
 					mesh.castShadow = true;
 
 					avatarCam.position.set(0,4,0);
-					avatarCam.lookAt(0,4,10);
+					avatarCam.lookAt(0,7,10);
 					mesh.add(avatarCam);
 
 					console.log("load monkey!");
@@ -401,12 +416,25 @@ The user moves a cube around the board trying to knock balls into a cone
 		console.log("Keydown:"+event.key);
 		//console.dir(event);
 		// first we handle the "play again" key in the "youwon" scene
-		if (gameState.scene == 'youwon' && event.key=='r') {
-			gameState.scene = 'main';
-			gameState.score = 0;
-			addBalls();
-			return;
-		}
+		if ((gameState.scene == 'youwon'||gameState.scene == 'lose')&& event.key=='r') {
+				gameState.scene = 'start';
+				gameState.score = 0;
+				addBalls();
+				return;
+			}
+
+			if(event.key=='p'){
+				gameState.scene = 'main';
+				gameState.score = 0;
+				gameState.health = 10;
+			}
+
+		// if (gameState.scene == 'youwon' && event.key=='r') {
+		// 	gameState.scene = 'main';
+		// 	gameState.score = 0;
+		// 	addBalls();
+		// 	return;
+		// }
 
 		// this is the regular scene
 		switch (event.key){
@@ -500,7 +528,6 @@ The user moves a cube around the board trying to knock balls into a cone
 		requestAnimationFrame( animate );
 
 		switch(gameState.scene) {
-
 			case "youwon":
 				endText.rotateY(0.005);
 				renderer.render( endScene, endCamera );
@@ -514,6 +541,11 @@ The user moves a cube around the board trying to knock balls into a cone
 					renderer.render( scene, gameState.camera );
 					camera3.lookAt(avatar.position);
 				}
+				break;
+
+			case "start":
+				startText.rotateY(0.005);
+				renderer.render( startScene, startCamera );
 				break;
 
 			default:
