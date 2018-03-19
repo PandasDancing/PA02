@@ -17,6 +17,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	var cone;
 
 	var endScene, endCamera, endText;
+	var lostScene, lostText;
   var npc;
 
 	var startScene, startCam, startText;
@@ -46,6 +47,7 @@ The user moves a cube around the board trying to knock balls into a cone
       initPhysijs();
 			scene = initScene();
 			createEndScene();
+			createLoseScene();
 			initRenderer();
 			createStartScene();
 			createMainScene();
@@ -79,6 +81,21 @@ The user moves a cube around the board trying to knock balls into a cone
 			endCamera.lookAt(0,0,0);
 
 		}
+
+		function createLoseScene(){
+			loseScene = initScene();
+			loseText = createSkyBox('youlose.jpeg',10);
+			//endText.rotateX(Math.PI);
+			loseScene.add(loseText);
+			var light1 = createPointLight();
+			light1.position.set(0,200,20);
+			loseScene.add(light1);
+			endCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			endCamera.position.set(0,50,1);
+			endCamera.lookAt(0,0,0);
+
+		}
+
 
 	function createMainScene(){
       // setup lighting
@@ -127,10 +144,14 @@ The user moves a cube around the board trying to knock balls into a cone
       if (other_object==avatar){
 						//updates the health if avatar obj is touch by the NPC obj
 						gameState.health --;
+
+						 if (gameState.health==0) {
+						 	gameState.scene='youlose';
+						 }
 						//Teleport the NPC obj to a random position
 						npc.__dirtyPosition = true;
-						npc.position.set(randN(50)-25,30,randN(50)-25);
-						//npc.position.set(40,10,40);  //NEEDS TO BE RAMDOM
+						npc.position.set(randN(50)-25,30,randN(50)-25);//Random
+
 						        }
 						      })
 		  scene.add(npc);
@@ -532,6 +553,11 @@ The user moves a cube around the board trying to knock balls into a cone
 			case "youwon":
 				endText.rotateY(0.005);
 				renderer.render( endScene, endCamera );
+				break;
+
+			case "youlose":
+				loseText.rotateY(0.005);
+				renderer.render( loseScene, endCamera );
 				break;
 
 			case "main":
