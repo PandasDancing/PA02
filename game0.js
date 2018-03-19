@@ -121,15 +121,16 @@ The user moves a cube around the board trying to knock balls into a cone
 			// npc = createNPC();
 			// npc.position.set(20,1,10);
 			// scene.add(npc);
-			npc = createBoxMesh2(0x0000ff,1,5,4);
+			npc = createBoxMesh2(0x0000ff,2,2,2);
 			npc.position.set(20,5,-20);
       npc.addEventListener('collision',function(other_object){
       if (other_object==avatar){
 						//updates the health if avatar obj is touch by the NPC obj
 						gameState.health --;
 						//Teleport the NPC obj to a random position
-						avatar.__dirtyPosition = true;
-						avatar.position.set(40,10,40);  //NEEDS TO BE RAMDOM
+						npc.__dirtyPosition = true;
+						npc.position.set(randN(50)-25,30,randN(50)-25);
+						//npc.position.set(40,10,40);  //NEEDS TO BE RAMDOM
 						        }
 						      })
 		  scene.add(npc);
@@ -310,7 +311,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	function createAvatar(){
 
 
-					var geometry = new THREE.BoxGeometry( 5, 5, 6);
+					var geometry = new THREE.BoxGeometry( 3, 3, 6);
 					var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 					var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
 					pmaterial.visible = false;
@@ -326,10 +327,10 @@ The user moves a cube around the board trying to knock balls into a cone
 					var loader = new THREE.OBJLoader();
 					loader.load("/monkey.obj",
 							function (obj) {
-								obj.scale.x=2;
-								obj.scale.y=2;
-								obj.scale.z=2;
-								obj.position.y = 3;
+								obj.scale.x=1;
+								obj.scale.y=1;
+								obj.scale.z=1;
+								obj.position.y = 0;
 								obj.position.x = 0;
 								mesh.add(obj);
 								obj.castShadow = true;
@@ -535,11 +536,14 @@ The user moves a cube around the board trying to knock balls into a cone
 
 			case "main":
 				updateAvatar();
-				updateNPC();
+				//updateNPC();
 	    	scene.simulate();
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
 					camera3.lookAt(avatar.position);
+				}
+				if (npc.position.distanceTo(avatar.position) < 20){
+					updateNPC();
 				}
 				break;
 
