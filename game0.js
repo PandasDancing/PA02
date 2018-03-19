@@ -302,7 +302,7 @@ The user moves a cube around the board trying to knock balls into a cone
 		mesh.receiveShadow = false;
 
 
-		return mesh
+		return mesh;
 		// we need to rotate the mesh 90 degrees to make it horizontal not vertical
 
 
