@@ -185,7 +185,7 @@ The user moves a cube around the board trying to knock balls into a cone
 						if (gameState.score==numBalls) {
 							gameState.scene='youwon';
 						}
-						scene.remove(ball);  //why not disapearing??
+						scene.remove(this);  //why not disapearing??
 						// make the ball drop below the scene ..
 						// threejs doesn't let us remove it from the schene...
 
