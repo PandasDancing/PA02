@@ -10,7 +10,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 	// First we declare the variables that hold the objects we need
 	// in the animation code
 	var scene, renderer;  // all threejs programs need these
-	var camera, avatarCam, camera3;  // we have two cameras in the main scene
+	var camera, avatarCam, camera3, coneCam;  // we have two cameras in the main scene
 	var avatar;
 	// here are some mesh objects ...
 
@@ -111,6 +111,10 @@ The user moves a monkey around the board trying to knock balls into a cone
 
 			camera3 = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
 			camera3.position.set(20,20,30);
+
+			// another camera sits on top of the cone that's gonna keep looking at the avatar.
+			coneCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			coneCam.position.set(10,8,8);
 
 
 			// create the ground and the skybox
@@ -493,6 +497,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 			case "1": gameState.camera = camera; break;
 			case "2": gameState.camera = avatarCam; break;
 			case "3": gameState.camera = camera3; break;
+			case "4": gameState.camera = coneCam; break;
 
 			// move the camera around, relative to the avatar
 			case "ArrowLeft": avatarCam.translateY(1);break;
@@ -590,6 +595,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
 					camera3.lookAt(avatar.position);
+					coneCam.lookAt(avatar.position);
 				}
 				if (npc.position.distanceTo(avatar.position) < 20){
 					updateNPC();
