@@ -352,8 +352,6 @@ The user moves a monkey around the board trying to knock balls into a cone
 	}
 
 	function createAvatar(){
-
-
 					var geometry = new THREE.BoxGeometry( 3, 3, 6);
 					var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 					var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
@@ -487,6 +485,10 @@ The user moves a monkey around the board trying to knock balls into a cone
 			case "m": controls.speed = 30; break;
       			case " ": controls.fly = true; break;
       			case "h": controls.reset = true; break;
+						case "x": avatar.rotation.set(0,0,0);
+						avatar.__dirtyRotation = true;
+						console.dir(avatar.rotation);
+						break;
 
 
 			// switch cameras
