@@ -468,13 +468,6 @@ The user moves a monkey around the board trying to knock balls into a cone
 				gameState.health = 10;
 			}
 
-		// if (gameState.scene == 'youwon' && event.key=='r') {
-		// 	gameState.scene = 'main';
-		// 	gameState.score = 0;
-		// 	addBalls();
-		// 	return;
-		// }
-
 		// this is the regular scene
 		switch (event.key){
 			// change the way the avatar is moving
