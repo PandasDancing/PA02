@@ -456,7 +456,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 		if ((gameState.scene == 'youwon'||gameState.scene == 'lose')&& event.key=='r') {
 				gameState.scene = 'start';
 				gameState.score = 0;
-				addBalls();
+				gameState.health = 10;
 				return;
 			}
 
@@ -466,12 +466,12 @@ The user moves a monkey around the board trying to knock balls into a cone
 				gameState.health = 10;
 			}
 
-		// if (gameState.scene == 'youwon' && event.key=='r') {
-		// 	gameState.scene = 'main';
-		// 	gameState.score = 0;
-		// 	addBalls();
-		// 	return;
-		// }
+		if (gameState.scene == 'youlose' && event.key=='r') {
+			gameState.scene = 'main';
+			gameState.score = 0;
+			addBalls();
+			return;
+		}
 
 		// this is the regular scene
 		switch (event.key){
