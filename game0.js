@@ -531,7 +531,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 	function updateCube(){
 		cube.lookAt(avatar.position);
 		  //npc.__dirtyPosition = true;
-		cube.setLinearVelocity(cube.getWorldDirection().multiplyScalar(1.2));
+		cube.setLinearVelocity(cube.getWorldDirection().multiplyScalar(1.9));
 	}
 
 
