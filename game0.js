@@ -329,6 +329,15 @@ The user moves a cube around the board trying to knock balls into a cone
 
 	}
 
+	function createBoxMesh2(color,w,h,d){
+		var geometry = new THREE.BoxGeometry( w, h, d);
+		var material = new THREE.MeshLambertMaterial( { color: color} );
+		mesh = new Physijs.BoxMesh( geometry, material );
+		//mesh = new Physijs.BoxMesh( geometry, material,0 );
+		mesh.castShadow = true;
+		return mesh;
+	}
+
 	function createAvatar(){
 
 
@@ -361,6 +370,10 @@ The user moves a cube around the board trying to knock balls into a cone
 
 							function(err){
 								console.log("error in loading: "+err);});
+
+								var scoop = createBoxMesh2(0xff0000,5,1,0.1);
+								scoop.position.set(0,-1,2);
+								mesh.add(scoop);
 					return mesh;
 	}
 
