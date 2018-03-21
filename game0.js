@@ -3,7 +3,7 @@
 /*
 Game 0: Group 29
 This is a ThreeJS program which implements a simple game
-The user moves a cube around the board trying to knock balls into a cone
+The user moves a monkey around the board trying to knock balls into a cone
 */
 
 
@@ -529,7 +529,7 @@ The user moves a cube around the board trying to knock balls into a cone
 	function updateCube(){
 		cube.lookAt(avatar.position);
 		  //npc.__dirtyPosition = true;
-		cube.setLinearVelocity(npc.getWorldDirection().multiplyScalar(1.2));
+		cube.setLinearVelocity(cube.getWorldDirection().multiplyScalar(1.2));
 	}
 
 
@@ -584,8 +584,8 @@ The user moves a cube around the board trying to knock balls into a cone
 
 			case "main":
 				updateAvatar();
-				//updateNPC();
 				updateCube();
+				//updateNPC();
 	    	scene.simulate();
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
