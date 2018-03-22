@@ -130,6 +130,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 			avatarCam.translateY(-4);
 			avatarCam.translateZ(3);
 			scene.add(avatar);
+			console.dir(avatar);
 			gameState.camera = avatarCam;
 
 			addBalls();
@@ -356,8 +357,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 	}
 
 	function createAvatar(){
-
-
+					var suzzy;
 					var geometry = new THREE.BoxGeometry( 3, 3, 6);
 					var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
 					var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
@@ -372,13 +372,20 @@ The user moves a monkey around the board trying to knock balls into a cone
 
 					console.log("load monkey!");
 					var loader = new THREE.OBJLoader();
-					loader.load("/monkey.obj",
+					loader.load("models/suzyA.obj",
 							function (obj) {
 								obj.scale.x=1;
 								obj.scale.y=1;
 								obj.scale.z=1;
 								obj.position.y = 0;
 								obj.position.x = 0;
+								suzzy = obj;
+								var Sgeometry = suzzy.children[0].geometry;
+								var Smaterial = suzzy.children[0].material;
+								suzzy = new Physijs.BoxMesh( Sgeometry, Smaterial );
+								suzzy.position.set(20,20,20);
+								//scene.add(suzzy);
+								console.dir(obj);
 								mesh.add(obj);
 								obj.castShadow = true;
 							},
@@ -388,9 +395,11 @@ The user moves a monkey around the board trying to knock balls into a cone
 							function(err){
 								console.log("error in loading: "+err);});
 
+
 								var scoop = createBoxMesh2(0xff0000,5,1,0.1);
 								scoop.position.set(0,-1,2);
 								mesh.add(scoop);
+
 					return mesh;
 	}
 
@@ -462,22 +471,21 @@ The user moves a monkey around the board trying to knock balls into a cone
 		if ((gameState.scene == 'youwon'||gameState.scene == 'lose')&& event.key=='r') {
 				gameState.scene = 'start';
 				gameState.score = 0;
-				addBalls();
+				gameState.health = 10;
 				return;
 			}
 
 			if(event.key=='p'){
 				gameState.scene = 'main';
-				gameState.score = 0;
-				gameState.health = 10;
 			}
 
-		// if (gameState.scene == 'youwon' && event.key=='r') {
-		// 	gameState.scene = 'main';
-		// 	gameState.score = 0;
-		// 	addBalls();
-		// 	return;
-		// }
+		if (gameState.scene == 'youlose' && event.key=='r') {
+			gameState.scene = 'main';
+			gameState.score = 0;
+			gameState.health = 10;
+			addBalls();
+			return;
+		}
 
 		// this is the regular scene
 		switch (event.key){
@@ -491,6 +499,10 @@ The user moves a monkey around the board trying to knock balls into a cone
 			case "m": controls.speed = 30; break;
       			case " ": controls.fly = true; break;
       			case "h": controls.reset = true; break;
+						case "x": avatar.rotation.set(0,0,0);
+						avatar.__dirtyRotation = true;
+						console.dir(avatar.rotation);
+						break;
 
 
 			// switch cameras
@@ -534,7 +546,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 	function updateCube(){
 		cube.lookAt(avatar.position);
 		  //npc.__dirtyPosition = true;
-		cube.setLinearVelocity(cube.getWorldDirection().multiplyScalar(1.2));
+		cube.setLinearVelocity(cube.getWorldDirection().multiplyScalar(1.9));
 	}
 
 
@@ -615,7 +627,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 		//draw heads up display ..
 	   var info = document.getElementById("info");
 info.innerHTML='<div style="font-size:24pt">Score: '+ gameState.score
-    + " health="+gameState.health
+    + " health: "+gameState.health
     + '</div>';
 
 	}
