@@ -480,6 +480,7 @@ The user moves a monkey around the board trying to knock balls into a cone
 		if (gameState.scene == 'youlose' && event.key=='r') {
 			gameState.scene = 'main';
 			gameState.score = 0;
+			gameState.health = 10;
 			addBalls();
 			return;
 		}
